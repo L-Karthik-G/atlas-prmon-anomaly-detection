@@ -1,0 +1,68 @@
+{
+  "Avg": {
+    "gpufbmem": 0.0,
+    "gpumempct": 0.0,
+    "gpusmpct": 0.0,
+    "ngpus": 0.0,
+    "nprocs": 1.0,
+    "nthreads": 1.0,
+    "pss": 0.0,
+    "rchar": 0.0,
+    "read_bytes": 0.0,
+    "rss": 0.0,
+    "rx_bytes": 0.0,
+    "rx_packets": 0.0,
+    "swap": 0.0,
+    "tx_bytes": 0.0,
+    "tx_packets": 0.0,
+    "vmem": 0.0,
+    "wchar": 0.0,
+    "write_bytes": 0.0
+  },
+  "HW": {
+    "cpu": {
+      "CPUs": 32,
+      "CoresPerSocket": 16,
+      "ModelName": "AMD Ryzen 9 8940HX with Radeon Graphics",
+      "Sockets": 1,
+      "ThreadsPerCore": 2
+    },
+    "gpu": {
+      "gpu_0": {
+        "name": "NVIDIA GeForce RTX 5050 Laptop GPU",
+        "sm_freq": 3090,
+        "total_mem": 8346624
+      },
+      "nGPU": 1
+    },
+    "mem": {
+      "MemTotal": 7719032
+    }
+  },
+  "Max": {
+    "gpufbmem": 0,
+    "gpumempct": 0,
+    "gpusmpct": 0,
+    "ngpus": 0,
+    "nprocs": 1,
+    "nthreads": 1,
+    "pss": 0,
+    "rchar": 0,
+    "read_bytes": 0,
+    "rss": 0,
+    "rx_bytes": 0,
+    "rx_packets": 0,
+    "stime": 0,
+    "swap": 0,
+    "tx_bytes": 0,
+    "tx_packets": 0,
+    "utime": 0,
+    "vmem": 0,
+    "wchar": 0,
+    "write_bytes": 0,
+    "wtime": 0
+  },
+  "prmon": {
+    "Version": "3.2.0"
+  }
+}
