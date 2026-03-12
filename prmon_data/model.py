@@ -14,7 +14,8 @@ import matplotlib.pyplot as plt
 
 
 # Used AI assistance to create data in WSL using prmon
-normal_files = sorted(glob.glob("prmon_data/normal_run*.json"))
+normal_files  = sorted(glob.glob("prmon_data/normal_run*.json"))
+anomaly_files = sorted(glob.glob("prmon_data/anomaly_*.json"))
 
 normal_samples = []
 for file in normal_files:
@@ -27,11 +28,6 @@ for file in normal_files:
 X_train_full = np.array(normal_samples)
 print("Normal data shape:", X_train_full.shape)
 
-anomaly_files = [
-    "prmon_data/anomaly_highmem.json",
-    "prmon_data/anomaly_highprocs.json",
-    "prmon_data/anomaly_combined.json"
-]
 
 anomaly_samples = []
 for file in anomaly_files:
@@ -42,14 +38,15 @@ for file in anomaly_files:
 
 X_anomaly = np.array(anomaly_samples)
 
-# ── 2. Normalize ──────────────────────────────────────────────────────────────
+print(f"Total normal samples:  {len(X_train_full)}")
+print(f"Total anomaly samples: {len(X_anomaly)}")
+
 
 # Fit scaler on normal data only, then apply to anomalies
 scaler = StandardScaler()
 X_train_full = scaler.fit_transform(X_train_full)
 X_anomaly    = scaler.transform(X_anomaly)
 
-# ── 3. Train / Test Split ─────────────────────────────────────────────────────
 
 # Split chronologically: 70% train, 30% held-out test base
 split_idx  = int(len(X_train_full) * 0.7)
@@ -62,10 +59,7 @@ X_anomaly_tensor = torch.tensor(X_anomaly,  dtype=torch.float32)
 print(f"Train Tensor Shape:  {X_train_tensor.shape}")
 print(f"Anomaly Pool Shape:  {X_anomaly.shape}")
 
-# ── 4. Autoencoder Model ──────────────────────────────────────────────────────
 
-# The autoencoder learns to reconstruct normal data.
-# High reconstruction error at test time signals an anomaly.
 class Autoencoder(nn.Module):
     def __init__(self, input_dim=3):
         super(Autoencoder, self).__init__()
@@ -114,6 +108,9 @@ for epoch in range(num_epochs):
 Model.eval()
 with torch.no_grad():
     recon_train = Model(X_train_tensor)
+    recon_val = Model(torch.tensor(X_test_base, dtype=torch.float32))
+val_loss = torch.mean((torch.tensor(X_test_base, dtype=torch.float32) - recon_val) ** 2)
+print(f"Train loss: {loss.item():.4f} | Val loss: {val_loss.item():.4f}")
 
 recon_error_train = torch.mean((X_train_tensor - recon_train) ** 2, dim=1)
 threshold = np.mean(recon_error_train.numpy()) + 3.8 * np.std(recon_error_train.numpy())
@@ -122,9 +119,9 @@ threshold = np.mean(recon_error_train.numpy()) + 3.8 * np.std(recon_error_train.
 X_test = X_test_base.copy()
 y_test = np.zeros(len(X_test))
 
-num_bursts = np.random.randint(2, 12)
+num_bursts = np.random.randint(2, 15)
 for _ in range(num_bursts):
-    burst_size  = np.random.randint(2, 15)
+    burst_size  = np.random.randint(2, 20)
     start_idx   = np.random.randint(0, len(X_test) - burst_size)
     anomaly_batch_indices = np.random.choice(len(X_anomaly), burst_size)
 
