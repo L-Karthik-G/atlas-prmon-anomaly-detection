@@ -93,7 +93,7 @@ Anomalies are flagged based on reconstruction error exceeding **mean + 3.8σ** o
 
 * Each run produces slightly different simulated data, allowing evaluation of the model's robustness.
 * Threshold selection is based on Gaussian estimates to balance sensitivity and false positives.
-* This repository demonstrates a complete pipeline for anomaly detection in process resource monitoring.
 * [My Portfolio](https://karthikgollapudi.vercel.app/projects)
 * [Reference for Autoencoders](https://karthikgollapudi.vercel.app/blog/)
+
 
