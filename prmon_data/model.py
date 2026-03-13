@@ -1,8 +1,3 @@
-"""
-The total dataset is small due to WSL crashing constraints during data collection.
-To mitigate overfitting, the data is split chronologically into training and test sets with a 70:30 split.
-"""
-
 import json
 import numpy as np
 import glob
