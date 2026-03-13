@@ -83,9 +83,7 @@ class Autoencoder(nn.Module):
     def forward(self, x):
         z      = self.encoder(x)
         x_recon = self.decoder(z)
-        return x_recon
-
-# ── 5. Training ───────────────────────────────────────────────────────────────
+        return
 
 Model     = Autoencoder()
 criterion = nn.MSELoss()
